@@ -1,21 +1,15 @@
 import React from 'react';
 import './App.css';
 
-import { Client } from '@stomp/stompjs';
-import SocketJS from 'sockjs-client';
+import { io } from 'socket.io-client';
 
 function App() {
 
-  const client = new Client({
-    webSocketFactory: () => new SocketJS('http://localhost:4000/ws'),
-    onConnect: () => {
-      client.subscribe('/topic', (message) => {
-        alert(message.body);
-      })
-    }
-  });
+  const socket = io('ws://localhost:4010');
 
-  client.activate();
+  socket.on('connection', () => {
+    console.log(socket.id);
+  })
 
   return (
     <div></div>
